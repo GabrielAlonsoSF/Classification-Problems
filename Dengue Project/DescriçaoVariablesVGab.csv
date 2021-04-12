@@ -1,0 +1,29 @@
+Variables;N;Frequency (%);Abbreviature
+nausea/ vomiting;238;46;nau/vom
+rash;246;47;rash
+history of abdominal pain;198;38;abpainhist
+myalgia;386;74;myal
+arthralgia;240;46;athral
+pain behind the eyes (retro-orbital eye pain);257;49;retpain
+tourniquet test+;11;2;tourniq+
+petechiae;158;30;pet
+leukopenia;257;49;leukop
+abdominal pain or tenderness;192;37;abpain.ws+
+persistent vomiting;215;41;pvom.ws
+clinical fluid accumulation (pleural effusion/ascites);82;16;cfa.ws
+mucosal bleed;132;25;bleed.ws
+lethargy  restlessness;35;7;letha/rest.ws
+liver enlargement >2 cm;66;13;liveren.ws
+increase hematocrit + decrease of platelet count;81;15;hto/plt.ws
+dehydration;121;23;dehyd.spl*
+edema;39;7;edema.spl
+hypotension;32;6;hypo.spl
+narrow pulse pressure <20 mmHg;11;2;pp<20mmHg.spl
+cold clammy skin/cyanosis;17;3;coldskin.spl
+rapid and weak pulse;21;4;rwp.spl
+slow capillary filling;31;6;scf.spl
+respiratory distress;34;7;respdist.spl
+severe bleeding;65;12;severeb
+impaired consciousness;22;4;neuro.soi#
+aspartate transaminase/alanine transaminase >=1000;7;1;alt/ast>1000.soi
+inpatient or outpatient;230;44;inpatient1
