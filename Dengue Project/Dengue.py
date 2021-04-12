@@ -33,8 +33,8 @@ print(" ")
 
 from sklearn.feature_selection import chi2
 from sklearn.feature_selection import SelectKBest
-#k = 4 #number top features of Chi-2
-chi2_sel = SelectKBest(score_func = chi2,k=10)
+#k = 5 #number top features of Chi-2
+chi2_sel = SelectKBest(score_func = chi2,k=5)
 chi2_fit = chi2_sel.fit(DF.iloc[:,0:-1],DF['classf'])
 chi2_scores = chi2_fit.scores_
 X_new=chi2_sel.fit_transform(DF.iloc[:,0:-1],DF['classf'])
