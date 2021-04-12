@@ -1,6 +1,11 @@
 """
-Classificar pacientes de Dengue em 3 níveis, de acordo com as características analisadas em consultório
-(sintomas experimentados pelos pacientes (0 sem, 1 com))
+Classify patients in 3 levels of Dengue severity, according to the symptons assessed in hospital
+0 for absence of symptons
+1 for presence of symptons
+SD: Severe Dengue
+DwS: Dengue with warning signs
+DnoWS: Dengue without warning signs
+
 """
 
 import pandas as pd
@@ -18,19 +23,14 @@ DF = DF._drop_axis('idpac',axis=1)
 DF = DF._drop_axis('days',axis=1)
 DF = DF._drop_axis('age',axis=1)
 
-#c_pearson = DF.corr()
-#fig = plt.figure()
-#sns.heatmap(c_pearson,cmap='inferno',annot=True)
-## foi visto que no mapa de calor da correlação, a correlação entre as variáveis pvom.ws e nau.vom é 0.92, logo exclui pbom.ws
+c_pearson = DF.corr()
+fig = plt.figure()
+sns.heatmap(c_pearson,cmap='inferno',annot=True)
+## it was seen in the heatmap of the correlation that the correlation of pvom.ws x nau.vom is 0.92. So I removed pvom.ws from dataset.
 DF = DF._drop_axis('pvom.ws',axis=1)
-print(f"Database Após: {DF}")
+print(f"Dataset without pvom.ws: {DF}")
 print(" ")
-#DF_mix = DF.sample(n=num_lin,random_state=55)
-#train = DF_mix.iloc[0:round(num_lin*0.8),0:-1]
-#test = DF_mix.iloc[round(num_lin*0.8)+1:num_lin,0:-1]
-#print(train)
-#print(test)
-#test = DF - train
+
 from sklearn.feature_selection import chi2
 from sklearn.feature_selection import SelectKBest
 #k = 4 #number top features of Chi-2
@@ -40,7 +40,7 @@ chi2_scores = chi2_fit.scores_
 X_new=chi2_sel.fit_transform(DF.iloc[:,0:-1],DF['classf'])
 
 from sklearn.model_selection import train_test_split
-#DF.iloc[:,0:-1]
+
 x_train, x_test, y_train, y_test = train_test_split(X_new,DF['classf'],test_size=0.8,random_state=101)
 
 #K-NN
@@ -56,8 +56,8 @@ plt.plot(range(4,30),error_rate,color='blue',linestyle='dashed',marker='o',marke
 plt.xlabel('K')
 plt.ylabel('taxa de erro')
 plt.title('taxa de erro vs valor de k')
-#plt.show()
-#k = 9 é o k que tem menor taxa de erro
+plt.show()
+#k = 9 is the one that give the lowest error rate
 knn = KNeighborsClassifier(n_neighbors=9)
 knn.fit(x_train,y_train)
 knn_pred = knn.predict(x_test)
@@ -96,9 +96,3 @@ svm.fit(x_train,y_train)
 svm_pred = svm.predict(x_test)
 print(classification_report(y_test, svm_pred))
 print(confusion_matrix(y_test, svm_pred))
-
-"""
-DF.del(axis=1)
-DF.drop('idpac',axis=1,inplace=True)
-print(DF)
-"""
