@@ -31,6 +31,31 @@ DF = DF._drop_axis('pvom.ws',axis=1)
 print(f"Dataset without pvom.ws: {DF}")
 print(" ")
 
+dengue_012 = DF['classf']
+######### Balanceamento dos dados
+dengue_levels = DF['classf'].unique()
+DWS_cases = sum(dengue_012 == 'DWS')
+SD_cases = sum(dengue_012 == 'SD')
+DnoWS_cases = sum(dengue_012 == 'DnoWS')
+print(DWS_cases)
+print(SD_cases)
+print(DnoWS_cases)
+print(dengue_levels)
+DF1 = DF.sort_values(by='classf',axis=0)
+print(DF1)
+
+DWS_Mat = DF1.iloc[0:DWS_cases,:]
+DnoWS_Mat = DF1.iloc[DWS_cases:DWS_cases+DnoWS_cases,:]
+SD_Mat = DF1.iloc[DWS_cases+DnoWS_cases:len(dengue_012)+1,:]
+
+DWS_Mat = DWS_Mat.sample(n=SD_cases,random_state = 101)
+DnoWS_Mat = DnoWS_Mat.sample(n=SD_cases,random_state = 101)
+SD_Mat = SD_Mat.sample(n=SD_cases,random_state = 101)
+
+print(SD_Mat)
+DF = pd.concat([DWS_Mat, DnoWS_Mat, SD_Mat],axis=0)
+
+#Variable Selection
 from sklearn.feature_selection import chi2
 from sklearn.feature_selection import SelectKBest
 #k = 5 #number top features of Chi-2
@@ -39,6 +64,7 @@ chi2_fit = chi2_sel.fit(DF.iloc[:,0:-1],DF['classf'])
 chi2_scores = chi2_fit.scores_
 X_new=chi2_sel.fit_transform(DF.iloc[:,0:-1],DF['classf'])
 
+#train/test split
 from sklearn.model_selection import train_test_split
 
 x_train, x_test, y_train, y_test = train_test_split(X_new,DF['classf'],test_size=0.8,random_state=101)
